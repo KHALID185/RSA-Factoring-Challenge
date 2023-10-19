@@ -1,0 +1,68 @@
+#!/usr/bin/python3
+
+
+import sys
+import random
+import time
+
+
+def check_prm(numbr_to_check, chk=20):
+
+    if numbr_to_check == 2 or numbr_to_check == 3:
+        return True
+    if numbr_to_check < 2 or numbr_to_check % 2 == 0:
+        return False
+
+
+    f_n = numbr_to_check - 1
+    n_fois = 0
+    while f_n % 2 == 0:
+        f_n //= 2
+        n_fois += 1
+
+
+    for itms in range(chk):
+        rnd = random.randint(2, numbr_to_check - 2)
+        pw = pow(rnd, f_n, numbr_to_check)
+        if pw == 1 or pw == numbr_to_check - 1:
+            continue
+        for itms_2 in range(n_fois - 1):
+            pw_2 = pow(pw, 2, numbr_to_check)
+            if pw_2 == numbr_to_check - 1:
+                break
+        else:
+            return False
+
+
+    return True
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: rsa <file>")
+        exit()
+
+
+    file_entree = sys.argv[1]
+
+
+    try:
+        with open(file_entree, 'r') as f_in:
+            rd_l = f_in.readlines()
+    except FileNotFoundError:
+        print("File not found")
+        exit()
+
+    commencer_hr = time.time()
+
+    numbr_to_check = int(rd_l[0].strip())
+
+    for items_1 in range(2, numbr_to_check//2):
+        if numbr_to_check % items_1 == 0 and check_prm(items_1) and check_prm(numbr_to_check//items_1):
+            print(f"{numbr_to_check}={items_1}*{numbr_to_check//items_1}")
+            break
+
+
+        if time.time() - commencer_hr > 5:
+            print("Time limit exceeded")
+            exit()
