@@ -6,29 +6,30 @@ import random
 import time
 
 
-def check_prm(numbr_to_check, chk=20):
-
-    if numbr_to_check == 2 or numbr_to_check == 3:
+def is_prime(num, k=20):
+    '''
+    '''
+    if num == 2 or num == 3:
         return True
-    if numbr_to_check < 2 or numbr_to_check % 2 == 0:
+    if num < 2 or num % 2 == 0:
         return False
 
 
-    f_n = numbr_to_check - 1
-    n_fois = 0
-    while f_n % 2 == 0:
-        f_n //= 2
-        n_fois += 1
+    d = num - 1
+    r = 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
 
 
-    for itms in range(chk):
-        rnd = random.randint(2, numbr_to_check - 2)
-        pw = pow(rnd, f_n, numbr_to_check)
-        if pw == 1 or pw == numbr_to_check - 1:
+    for _ in range(k):
+        a = random.randint(2, num - 2)
+        x = pow(a, d, num)
+        if x == 1 or x == num - 1:
             continue
-        for itms_2 in range(n_fois - 1):
-            pw_2 = pow(pw, 2, numbr_to_check)
-            if pw_2 == numbr_to_check - 1:
+        for _ in range(r - 1):
+            x = pow(x, 2, num)
+            if x == num - 1:
                 break
         else:
             return False
@@ -43,26 +44,29 @@ if __name__ == "__main__":
         exit()
 
 
-    file_entree = sys.argv[1]
+    input_file = sys.argv[1]
 
 
     try:
-        with open(file_entree, 'r') as f_in:
-            rd_l = f_in.readlines()
+        with open(input_file, 'r') as f:
+            lines = f.readlines()
     except FileNotFoundError:
         print("File not found")
         exit()
 
-    commencer_hr = time.time()
 
-    numbr_to_check = int(rd_l[0].strip())
+    start_time = time.time()
 
-    for items_1 in range(2, numbr_to_check//2):
-        if numbr_to_check % items_1 == 0 and check_prm(items_1) and check_prm(numbr_to_check//items_1):
-            print(f"{numbr_to_check}={items_1}*{numbr_to_check//items_1}")
+
+    num = int(lines[0].strip())
+
+
+    for i in range(2, num//2):
+        if num % i == 0 and is_prime(i) and is_prime(num//i):
+            print(f"{num}={i}*{num//i}")
             break
 
 
-        if time.time() - commencer_hr > 5:
+        if time.time() - start_time > 5:
             print("Time limit exceeded")
             exit()
