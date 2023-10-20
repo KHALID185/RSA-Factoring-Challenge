@@ -1,17 +1,14 @@
 #!/usr/bin/python3
-
-
 import sys
 import time
 
 
-def fctorisition_number(n_b_r):
+def factorize(num):
 
-    for itms in range(2, int(n_b_r**0.5)+1):
-        if n_b_r % itms == 0:
-            return (itms, n_b_r//itms)
+    for i in range(2, int(num**0.5)+1):
+        if num % i == 0:
+            return (i, num//i)
     return None
-
 
 if __name__ == "__main__":
 
@@ -19,25 +16,24 @@ if __name__ == "__main__":
         print("Usage: factors <file>")
         exit()
 
-    f_entree = sys.argv[1]
+    input_file = sys.argv[1]
 
     try:
-        with open(f_entree, 'r') as fct:
-                l_to_rd = fct.readlines()
+        with open(input_file, 'r') as f:
+            lines = f.readlines()
     except FileNotFoundError:
         print("File not found")
         exit()
 
 
-    lancer_horlg = time.time()
+    start_time = time.time()
 
+    for line in lines:
+        num = int(line.strip())
+        factors = factorize(num)
+        if factors:
+            print(f"{num}={factors[0]}*{factors[1]}")
 
-    for n_l in l_to_rd:
-        n_b_r = int(n_l.strip())
-        reslt_fctrz = fctorisition_number(n_b_r)
-        if reslt_fctrz:
-            print(f"{n_intg}={reslt_fctrz[0]}*{reslt_fctrz[1]}")
-
-        if time.time() - lancer_horlg > 5:
+        if time.time() - start_time > 5:
             print("Time limit exceeded")
             exit()
