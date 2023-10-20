@@ -6,6 +6,7 @@ import time
 
 
 def fctorisition_number(n_b_r):
+
     for itms in range(2, int(n_b_r**0.5)+1):
         if n_b_r % itms == 0:
             return (itms, n_b_r//itms)
@@ -18,13 +19,11 @@ if __name__ == "__main__":
         print("Usage: factors <file>")
         exit()
 
-
     f_entree = sys.argv[1]
 
-
     try:
-        with open(f_entree, 'r') as f:
-                l_to_rd = f.readlines()
+        with open(f_entree, 'r') as fct:
+                l_to_rd = fct.readlines()
     except FileNotFoundError:
         print("File not found")
         exit()
@@ -34,8 +33,8 @@ if __name__ == "__main__":
 
 
     for n_l in l_to_rd:
-        n_intg = int(n_l.strip())
-        reslt_fctrz = fctorisition_number(n_intg)
+        n_b_r = int(n_l.strip())
+        reslt_fctrz = fctorisition_number(n_b_r)
         if reslt_fctrz:
             print(f"{n_intg}={reslt_fctrz[0]}*{reslt_fctrz[1]}")
 
