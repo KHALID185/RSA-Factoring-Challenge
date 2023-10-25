@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+
+
+import sys
+import time
+
+
+def fctorisition_number(n_b_r):
+    for itms in range(2, int(n_b_r**0.5)+1):
+        if n_b_r % itms == 0:
+            return (itms, n_b_r//itms)
+    return None
+
+
+if __name__ == "__main__":
+
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        exit()
+
+
+    f_entree = sys.argv[1]
+
+
+    try:
+        with open(f_entree, 'r') as f:
+                l_to_rd = f.readlines()
+    except FileNotFoundError:
+        print("File not found")
+        exit()
+
+
+    lancer_horlg = time.time()
+
+
+    for n_l in l_to_rd:
+        n_intg = int(n_l.strip())
+        reslt_fctrz = fctorisition_number(n_intg)
+        if reslt_fctrz:
+            print(f"{n_intg}={reslt_fctrz[0]}*{reslt_fctrz[1]}")
+
+        if time.time() - lancer_horlg > 5:
+            print("Time limit exceeded")
+            exit()
